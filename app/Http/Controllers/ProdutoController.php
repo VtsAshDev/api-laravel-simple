@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use App\Models\Produto;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,35 +17,24 @@ class ProdutoController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request): JsonResponse
     {
-        $validate = $request->validate([
+        $validated = $request->validate([
             'nome' => 'required',
             'descricao' => 'required',
-            'valor' => 'required',
-            'quantidade' => 'required',
+            'valor' => 'required|numeric',
+            'quantidade' => 'required|integer',
+            'status' => 'required',
         ]);
 
-        $produto = Produto::create([
-            'nome' => $validate['nome'],
-            'descricao' => $validate['descricao'],
-            'valor' => $validate['valor'],
-            'quantidade' => $validate['quantidade'],
-        ]);
+        $produto = Produto::create($validated);
+
         return response()->json([
             'message' => 'Produto cadastrado com sucesso!',
             'produto' => $produto
-        ],201);
+        ], 201);
     }
 
     /**
@@ -62,31 +50,21 @@ class ProdutoController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Produto $produto): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         $validated = $request->validate([
             'nome' => 'required',
             'descricao' => 'required',
             'valor' => 'required',
             'quantidade' => 'required',
+            'status' => 'required',
         ]);
 
-        $produto = $produto->update([
-            'nome' => $validated['nome'],
-            'descricao' => $validated['descricao'],
-            'valor' => $validated['valor'],
-            'quantidade' => $validated['quantidade'],
-        ]);
+        $produto = Produto::findOrFail($id);
+
+        $produto->update($validated);
 
         return response()->json([
             'message' => 'Produto atualizado com sucesso!',
