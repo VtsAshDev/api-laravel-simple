@@ -7,7 +7,6 @@ Este projeto é uma API RESTful desenvolvida em Laravel para gerenciamento de pr
 ## Tecnologias Utilizadas
 - PHP ^8.2
 - Laravel ^12.x
-- Laravel Sanctum (autenticação)
 - MySQL ou SQLite (ajustável via `.env`)
 - Vite, TailwindCSS e Axios (front-end opcional)
 
@@ -78,13 +77,6 @@ Todos os endpoints estão disponíveis em `/api/produtos`.
 | status     | string   | Status (ativo/inativo)   |
 | created_at | datetime | Data de criação          |
 | updated_at | datetime | Data de atualização      |
-
-## Testes
-
-Para rodar os testes:
-```bash
-php artisan test
-```
 
 ## Licença
 
